@@ -111,13 +111,13 @@ def add_predio():
     
     flash('¡Su solicitud ha sido enviada! en 48 horas como máximo recibirá una respuesta')
 
-    return redirect(url_for('conexion.reservar', id_predio = id_predio, id_image = new_imagenes_predio.id_image))
+    return redirect(url_for('conexion.reservar', id_predio = id_predio))
     
-@conexion.route("/reservar/<string:id_predio>%<string:id_image>", methods=["GET"])
-def reservar(id_predio, id_image):
+@conexion.route("/reservar/<string:id_predio>", methods=["GET"])
+def reservar(id_predio):
     
     predio = Predio.query.get(id_predio)
-    imagenes_predio = Imagenes_predio.query.get(id_image)
+    imagenes_predio = Imagenes_predio.query.filter_by(id_predio = id_predio).first()
     tipo_predio = Tipo_predio.query.get(predio.id_tipo)
 
     predio_seguridad = Predio_seguridad.query.filter_by(id_predio=predio.id_predio).all()
@@ -145,29 +145,15 @@ def reservar(id_predio, id_image):
 
     cotizacion = (predio.area*0.4 + predio.nro_casas_habitacion*0.2 + predio.nro_puertas_acceso*0.05 + predio.nro_torres_bloques*0.2 + len(predios_areas_comunes)*0.1 + len(predio_seguridad)*0.05)*C
 
-    imagen_data = imagenes_predio.imagen
+    if imagenes_predio is not None:
+        imagen_data = imagenes_predio.imagen
 
-    imagen_url = f"data:image/jpeg;base64,{base64.b64encode(imagen_data).decode()}"
-    
+        imagen_url = f"data:image/jpeg;base64,{base64.b64encode(imagen_data).decode()}"
+    else:
+        imagen_url = ""
 
     return render_template("realizarSolicitud.html", predio = predio, cotizacion = cotizacion,
                            imagen_url = imagen_url, tipo_predio = tipo_predio, seg_interna = seg_interna,
                             seg_externa = seg_externa, areas_comunes = areas_comunes)
 
-@conexion.route('/nuevaSolicitud/<string:id_predio>/<string:id_cliente>', methods=['POST'])
-def add_solicitud(id_predio, id_cliente):
-    if request.method == 'POST':
 
-        id_cliente = id_cliente
-        id_predio = id_predio
-        fecha = datetime.now()
-        estado = False
-
-        new_solicitud = Solicitud(id_cliente, id_predio, fecha, estado)
-
-        db.session.add(new_solicitud)
-        db.session.commit()
-
-        flash('Solicitud registrada correctamente')
-
-        return redirect(url_for('conexion.index'))
