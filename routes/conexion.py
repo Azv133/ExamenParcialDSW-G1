@@ -109,13 +109,13 @@ def add_predio():
         db.session.commit()
 
     
-    #flash('¡Su solicitud ha sido enviada! en 48 horas como máximo recibirá una respuesta')
+    flash('¡Su solicitud ha sido enviada! en 48 horas como máximo recibirá una respuesta')
 
     return redirect(url_for('conexion.reservar', id_predio = id_predio, id_image = new_imagenes_predio.id_image))
     
 @conexion.route("/reservar/<string:id_predio>%<string:id_image>", methods=["GET"])
 def reservar(id_predio, id_image):
-    flash('¡Su solicitud ha sido enviada! en 48 horas como máximo recibirá una respuesta')
+    
     predio = Predio.query.get(id_predio)
     imagenes_predio = Imagenes_predio.query.get(id_image)
     tipo_predio = Tipo_predio.query.get(predio.id_tipo)
