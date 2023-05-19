@@ -1,0 +1,148 @@
+{% extends "layout.html" %} {% block body %}
+<div class="card card-body bg-dark text-white">
+    <div class="py-2 text-left">
+        <h2>Resultados similares:</h2>
+    </div>
+    <form action="{{url_for('conexion.add_solicitud', id_predio = predio.id_predio, id_cliente = 1)}}" method="POST" class="card bg-black text-light">
+        <div class="py-5 text-center">
+            <img src="{{imagen_url}}" class="img-fluid" alt="Responsive image">
+        </div>
+        <div class = "container p-4">
+            <div class = "row g-3">
+                <div class="col-md-9 col-lg-4">
+                    <div class="mb-3">
+                        <label for="nombre">Nombre:</label>
+                        <input
+                            type="text"
+                            name="nombre"
+                            class="form-control bg-dark text-white rounded-0"
+                            value="{{predio.nombre}}"
+                            readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nombre">Ubicación:</label>
+                        <input
+                            type="text"
+                            name="ubicacion"
+                            class="form-control bg-dark text-white rounded-0"
+                            value="{{predio.ubicacion}}"
+                            readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nro_casas_habitacion">Número de Casas - Habitación:</label>
+                        <input 
+                            type="number"
+                            name = "nro_casas_habitacion"
+                            class="form-control bg-dark text-white rounded-0"
+                            value="{{predio.nro_casas_habitacion}}"
+                            readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="seguridad_interna">Seguridad interna:</label>
+                        <textarea 
+                            type="number"
+                            name = "seguridad_interna"
+                            class="form-control bg-dark text-white rounded-0"
+                            style="resize: none; height: 200;"
+                            readonly
+                        >{{seg_interna}}
+                        </textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="seguridad_externa">Seguridad externa:</label>
+                        <textarea 
+                            type="number"
+                            name = "seguridad_externa"
+                            class="form-control bg-dark text-white rounded-0"
+                            style="resize: none; height: 200;"
+                            readonly
+                        >{{seg_externa}}
+                        </textarea>
+                    </div>
+                    
+                </div>
+
+                <div class="col-md-9 col-lg-2"></div>
+
+                <div class="col-md-9 col-lg-4">
+                    <div class="mb-3">
+                        <label for="nombre">Tipo:</label>
+                        <input
+                            type="text"
+                            name="tipo"
+                            class="form-control bg-dark text-white rounded-0"
+                            value="{{tipo_predio.tipo_pred}}"
+                            readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nombre">Área (m^2):</label>
+                        <input
+                            type="text"
+                            name="area"
+                            class="form-control bg-dark text-white rounded-0"
+                            value="{{predio.area}}"
+                            readonly
+                        />
+                    </div>
+
+                    <div class = "pb-4">
+                        <label for="areas_comunes">Areas comunes:</label>
+                    </div>
+                    <div class="row g-3 border-top border-bottom scrollarea" style="max-height: 250px; max-width: 500px; overflow-y: auto; overflow-x: hidden;">
+                        {% for a in areas_comunes %}
+                            <div class="col-md-9 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="tipo_areas">Tipo:</label>
+                                    <input
+                                        type="text"
+                                        name = "tipo_area_comun"
+                                        class="form-control bg-dark text-white rounded-0"
+                                        value="{{a['tipo']}}"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="col-md-9 col-lg-4">
+                                <div class="mb-3">
+                                    <label for="area_area_comun">Área (m^2):</label>
+                                    <input
+                                        type="text"
+                                        name = "area_area_comun"
+                                        class="form-control bg-dark text-white rounded-0"
+                                        value="{{a['area']}}"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                        
+                </div>
+            </div>
+            <div class="mb-3 py-3 text-center">
+                <label for="nombre">Cotización:</label>
+                <input
+                    type="text"
+                    name="Cotización"
+                    class="bg-dark text-white rounded-0"
+                    value="{{cotizacion}}"
+                    readonly
+                />
+            <div class="py-3 text-center">
+                <button class="w-50 btn btn-primary btn-lg">Cotizar servicio</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

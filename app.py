@@ -1,5 +1,5 @@
 from flask import Flask
-from routes.contacts import contacts
+from routes.conexion import conexion
 from flask_sqlalchemy import SQLAlchemy
 from config import DATABASE_CONNECTION_URI
 
@@ -16,4 +16,4 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 SQLAlchemy(app)
 
-app.register_blueprint(contacts)
+app.register_blueprint(conexion)

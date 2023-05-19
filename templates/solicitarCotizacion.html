@@ -1,0 +1,255 @@
+
+{% extends "layout.html" %} 
+{% block body %}
+
+<div class="card card-body bg-dark text-white">
+    <div class="py-3 text-center">
+        <h1>Solicitar Cotización</h1>
+    </div>
+    <form action="/nuevoPredio" method="POST" class="card bg-black text-light" enctype="multipart/form-data">
+        <div class = "container p-4">
+            <div class = "row g-3">
+                <div class="col-md-9 col-lg-5">
+                    <div class="mb-3 pb-4">
+                        <label for="nombre">Nombre:</label>
+                        <input
+                            type="text"
+                            name="nombre_predio"
+                            class="form-control bg-dark text-white rounded-0"
+                            placeholder="Escriba el nombre del predio"
+                            required
+                        />
+                        </div>
+
+                    <div class="mb-3 pb-4">
+                        <label for="area">Área:</label>
+                        <input
+                            type="text"
+                            name="area_predio"
+                            class="form-control bg-dark text-white rounded-0"
+                            placeholder="Digite el área"
+                            required
+                        />
+                    </div>
+
+                    <div class="mb-3 pb-5">
+                        <label for="tipo">Tipo:</label>
+                        <select class="form-select bg-dark text-white rounded-0" name = "tipo_predio" required>
+                            {% for tp in tipo_predio %}
+                                <option value="{{tp.id_tipo}}">{{tp.tipo_pred}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3 pb-4">
+                        <label for="nro_casas_habitacion">Número de Casas - Habitación:</label>
+                        <input 
+                            type="number"
+                            name = "nro_casas_habitacion"
+                            class="form-control bg-dark text-white rounded-0"
+                            value="0"
+                            min = "0"
+                            required
+                        />
+                    </div>
+
+                    <div class="mb-3 pb-4">
+                        <label for="nro_puertas_acceso">Número de Puertas de acceso:</label>
+                        <input 
+                            type="number"
+                            name = "nro_puertas_acceso"
+                            class="form-control bg-dark text-white rounded-0"
+                            value="0"
+                            min = "0"
+                            required
+                        />
+                    </div>
+
+                    <div class="mb-3 pb-4">
+                        <label for="nro_torres_bloques">Número de Torres - Bloques:</label>
+                        <input 
+                            type="number"
+                            name = "nro_torres_bloques"
+                            class="form-control bg-dark text-white rounded-0"
+                            value="0"
+                            min = "0"
+                            required
+                        />
+                    </div>
+
+                    <div class="mb-3 pb-4">
+                        <label for="imagenes">Adjuntar imagen:</label>
+                        <input 
+                            type="file"
+                            name = "imagen_predio"
+                            class="form-control bg-dark text-white rounded-0"
+                            />
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-9 col-lg-1"></div>
+
+                <div class="col-md-9 col-lg-5">
+                    <div class="mb-3">
+                        <label for="ubicacion">Ubicación:</label>
+                        <input
+                            type="text"
+                            name="ubicacion"
+                            class="form-control bg-dark text-white rounded-0"
+                            placeholder="Escriba la ubicación"
+                            required
+                        />
+                    </div>
+                    
+                    <div class = "pb-4">
+                        <div class = "row-g3">
+                            <div class="col-md-9 col-lg-4">
+                                <label for="seguridad">Seguridad:</label>
+                            </div>
+                            
+                            <div class="col-md-9 col-lg-4">
+                                <button id="add-row-btn" type="button" class="btn btn-primary">+</button>
+                                <button id="remove-row-btn" type="button" class="btn btn-danger">-</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row g-3 border-top border-bottom scrollarea" style="max-height: 250px; max-width: 500px; overflow-y: auto; overflow-x: hidden;">
+                        
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                var addRowBtn = document.getElementById('add-row-btn');
+                                var removeRowBtn = document.getElementById('remove-row-btn');
+                                var scrollarea = document.querySelector('.scrollarea');
+                                
+                                addRowBtn.addEventListener('click', function() {
+                                    var newRow = document.createElement('div');
+                                    newRow.className = 'row g-3';
+                                    newRow.innerHTML = `
+                                        <div class="col-md-9 col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="tipo_eguridad">Tipo:</label>
+                                                <select class="form-select bg-dark text-white rounded-0" name = "tipo_seguridad" required>
+                                                    {% for ts in tipo_seguridad %}
+                                                        <option value="{{ts.id_tipo_seg}}">{{ts.name_tipo_seg}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                
+                                        <div class="col-md-9 col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="nombre_seguridad">Nombre:</label>
+                                                <input
+                                                    type="text"
+                                                    name="nombre_seguridad"
+                                                    class="form-control bg-dark text-white rounded-0"
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                
+                                        <div class="col-md-9 col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="nro_casas_habitacion">Número:</label>
+                                                <input 
+                                                    type="number"
+                                                    name = "cantidad_seguridad"
+                                                    class="form-control bg-dark text-white rounded-0"
+                                                    value="0"
+                                                    min = "0"
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                        
+                                    `;
+                                    scrollarea.appendChild(newRow);
+                                });
+                                
+                                removeRowBtn.addEventListener('click', function() {
+                                    var rows = document.querySelectorAll('.scrollarea .row');
+                                    if (rows.length > 0) {
+                                        rows[rows.length - 1].remove();
+                                    }
+                                });
+                            });
+                        </script>
+                    </div>
+
+                    <div class = "pb-4">
+                        <div class = "row-g3">
+                            <div class="col-md-9 col-lg-4">
+                                <label for="areas_comunes">Areas comunes:</label>
+                            </div>
+                            
+                            <div class="col-md-9 col-lg-4">
+                                <button id="add-row-btn2" type="button" class="btn btn-primary">+</button>
+                                <button id="remove-row-btn2" type="button" class="btn btn-danger">-</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row g-3 border-top border-bottom scrollarea2" style="max-height: 250px; max-width: 500px; overflow-y: auto; overflow-x: hidden;">
+                        
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                var addRowBtn = document.getElementById('add-row-btn2');
+                                var removeRowBtn = document.getElementById('remove-row-btn2');
+                                var scrollarea = document.querySelector('.scrollarea2');
+                                
+                                addRowBtn.addEventListener('click', function() {
+                                    var newRow = document.createElement('div');
+                                    newRow.className = 'row g-3';
+                                    newRow.innerHTML = `
+                                        <div class="col-md-9 col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="tipo_areas">Tipo:</label>
+                                                <select class="form-select bg-dark text-white rounded-0" name = "tipo_area_comun" required>
+                                                    {% for ac in area_comun %}
+                                                        <option value="{{ac.id_area}}">{{ac.tipo}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                
+                                        <div class="col-md-9 col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="area_area_comun">Área (m^2):</label>
+                                                <input
+                                                    type="text"
+                                                    name = "area_area_comun"
+                                                    class="form-control bg-dark text-white rounded-0"
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                        
+                                    `;
+                                    scrollarea.appendChild(newRow);
+                                });
+                                
+                                removeRowBtn.addEventListener('click', function() {
+                                    var rows = document.querySelectorAll('.scrollarea2 .row');
+                                    if (rows.length > 0) {
+                                        rows[rows.length - 1].remove();
+                                    }
+                                });
+                            });
+                        </script>
+                    </div>
+
+                </div>
+            </div>
+            <div class="py-3 text-center">
+                <button class="w-50 btn btn-primary btn-lg">Solicitar Cotización</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

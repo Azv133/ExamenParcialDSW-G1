@@ -5,3 +5,7 @@ body {
 .bg-black {
   background: #090909 !important;
 }
+
+.custom-textarea{
+  height: 100px;
+}
